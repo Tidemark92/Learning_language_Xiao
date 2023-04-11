@@ -1,0 +1,40 @@
+# import module
+import wikipedia
+import re
+
+# specify the title of the wikipedia page
+wiki = wikipedia.page("Semigroup")
+
+# extract the plan text content of the page
+text = wiki.content
+
+# clean text
+text = re.sub(r'==.*?==+', '', text)
+text = text.replace('\n', '')
+
+# import matplotlib modules
+import matplotlib.pyplot as plt
+
+# define a function to plot wordcloud
+def plot_cloud(wordcloud):
+    # set figure size
+    plt.figure(figsize = (40, 30))
+    # display image
+    plt.imshow(wordcloud)
+    # no axis details
+    plt.axis("off");
+
+import wordcloud
+
+# create a WordCloud object
+wordcloud = WordCloud(stopwords = ['the', 'of', 'and', 'a'], max_words = 100, width = 500, height = 400)
+
+# generate the wordcloud
+wordcloud.generate(text)
+
+# save the wordcloud to a file
+wordcloud.to_file("wordcloud2.png")
+
+# show the wordcloud
+plt.imshow(wordcloud)
+plt.show()
