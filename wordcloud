@@ -1,12 +1,13 @@
 # import module
-import wikipedia
+import arxiv
 import re
 
-# specify the title of the wikipedia page
-wiki = wikipedia.page("Semigroup")
+# specify the arXiv ID of the paper
+search = arxiv.Search(id_list=["2304.05508"])
+paper = search.next(search.results())
 
-# extract the plan text content of the page
-text = wiki.content
+# extract text from the abstract of the paper
+text = paper.summary
 
 # clean text
 text = re.sub(r'==.*?==+', '', text)
@@ -24,17 +25,21 @@ def plot_cloud(wordcloud):
     # no axis details
     plt.axis("off");
 
-import wordcloud
+# import wordcloud
+from wordcloud import wordcloud, STOPWORDS
 
 # create a WordCloud object
-wordcloud = WordCloud(stopwords = ['the', 'of', 'and', 'a'], max_words = 100, width = 500, height = 400)
+wordcloud = WordCloud(
+    width = 3000, 
+    height = 2000, 
+    random_state = 1, 
+    background_color = 'black', 
+    colormap = 'Pastlel1', 
+    collocations = False, 
+    stopwords = STOPWORDS).generate(text)
 
-# generate the wordcloud
-wordcloud.generate(text)
+# plot
+plot_cloud(wordcloud)
 
 # save the wordcloud to a file
 wordcloud.to_file("wordcloud2.png")
-
-# show the wordcloud
-plt.imshow(wordcloud)
-plt.show()
