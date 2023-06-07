@@ -4,7 +4,7 @@ import re
 
 # specify the arXiv ID of the paper
 search = arxiv.Search(id_list=["2304.05508"])
-paper = search.next(search.results())
+paper = next(search.results())
 
 # extract text from the abstract of the paper
 text = paper.summary
